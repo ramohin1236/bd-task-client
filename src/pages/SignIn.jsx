@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { FaGoogle } from "react-icons/fa6"
 import { Link, useNavigate } from "react-router-dom"

@@ -4,21 +4,25 @@ import 'swiper/css/pagination';
 import { Pagination, Navigation } from 'swiper/modules';
 import man1 from '/public/man1.png'
 import { useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
 
 const SingleItem = () => {
     const [setSwiperRef] = useState(null);
+    const product = useLoaderData()
+    
+    console.log(product);
     return (
         <div className="container mx-auto mt-14">
             <div className="flex">
                 <div>
-                    <img src="/public/creative-reels-composition.png" alt="" className="w-[800px] h-[600px] object-cover" />
+                    <img src={product.imageUrl} alt="" className="w-[800px] h-[600px] object-cover" />
 
-                    <p className="text-5xl font-bold">i-phone 15</p>
+                    <p className="text-5xl font-bold">{product.name} </p>
                 </div>
 
                 <div>
-                    <p className="badge bg-[#c1cbcb] w-28 h-12 font-bold text-xl mb-6">Mobile</p>
-                    <p className="text-2xl font-bold">120000 BDT</p>
+                    <p className="badge bg-[#c1cbcb] w-28 h-12 font-bold text-xl mb-6">{product.des} </p>
+                    <p className="text-2xl font-bold">{product.price}  BDT</p>
                     <div className='rating rating-lg'>
                         <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
                         <p className='text-2xl font-bold mt-2 ml-4'>4.5</p>

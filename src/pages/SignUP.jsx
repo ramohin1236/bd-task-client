@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom"
 import useAxiosPublic from "../hooks/useAxiosPublic"
 import { useForm } from "react-hook-form"

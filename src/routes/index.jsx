@@ -5,6 +5,7 @@ import Shop from "../pages/Shop";
 import SingleItem from "../pages/SingleItem";
 import SignIn from "../pages/SignIn";
 import SignUP from "../pages/SignUP";
+import { AddProduct } from "../pages/AddProduct";
 
 
 
@@ -24,7 +25,8 @@ import SignUP from "../pages/SignUP";
         },
         {
             path: '/product/:id',
-            element: <SingleItem/>
+            element: <SingleItem/>,
+            loader: ({params})=>fetch(`http://localhost:8000/product/${params.id}`)
         },
         {
             path: '/sign-up',
@@ -33,6 +35,10 @@ import SignUP from "../pages/SignUP";
         {
             path: '/signin',
             element: <SignIn/>
+        },
+        {
+            path: '/product-add',
+            element: <AddProduct/>
         },
     ]
    

@@ -1,8 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
 
+import { useEffect, useState } from 'react'
 import ProductsCart from '../components/ProductsCart'
 import shirt from  '/public/shirt.png'
+import useAxiosPublic from '../hooks/useAxiosPublic'
 const Shop = () => {
+    const [product,setProduct]=useState(null)
+    const axiosPublic = useAxiosPublic()
+
+    useEffect(()=>{
+        axiosPublic.get('/product')
+        .then(data=>setProduct(data.data))
+    },[axiosPublic])
+
     // const [filteredItems, setFilteredItems]=useState([])
     // const [currentPage,setCurrentPage]=useState(1)
     // const [itemsPerPage]= useState(10)
@@ -45,26 +55,11 @@ const Shop = () => {
                 <p>Product choose here</p>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto'> 
                    {/* products starts */}
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
-                     <ProductsCart/>
+                   {
+                    product?.map((item,idx)=> <ProductsCart key={idx} item={item}/>)
+                   }
+                    
+                    
                    {/* products ends */}
               </div>
                 {/* pagination */}
