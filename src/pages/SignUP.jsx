@@ -19,7 +19,7 @@ const SignUP = () => {
          formState: { errors },
       } = useForm()
      
-      const {createUser,signInWithGoogle,logout,updateUserProfile}=useContext(AuthContext);
+      const {createUser,updateUserProfile}=useContext(AuthContext);
 
       const onSubmit = async (data) => {
         const name = data.name;
@@ -68,6 +68,7 @@ const SignUP = () => {
       
         console.log(name, email, password);
       };
+
   return (
     <div className="hero min-h-screen bg-[#c1dcdc] shadow-2xl">
     <div className="hero-content flex-col ">

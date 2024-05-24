@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithPopup, updateProfile } from "firebase/auth"
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithPopup, signOut, updateProfile,GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth"
 import { createContext, useEffect, useState } from "react"
 import app from './../../firebase.config';
-import { GoogleAuthProvider } from "firebase/auth/cordova";
+
+
 
 export const AuthContext = createContext()
 const googleProvider = new GoogleAuthProvider()
@@ -26,7 +27,11 @@ const signInWithGoogle = () => {
     setLoading(true)
     return signInWithPopup(auth, googleProvider)
   }
-
+ //6. Login with Password
+ const signin = (email, password) => {
+    setLoading(true)
+    return signInWithEmailAndPassword(auth, email, password)
+  }
 
   //   2. Update Name
   const updateUserProfile = (name, photoURL) => {
@@ -37,6 +42,12 @@ const signInWithGoogle = () => {
     })
   }
 
+
+  const logout =() => {
+    setLoading(true)
+    // await removeToken
+    return signOut(auth)
+  }
 
   useEffect(() => {
     //this part will execute once the component is mounted.
@@ -79,6 +90,8 @@ const signInWithGoogle = () => {
     loading,
     setLoading,
     createUser,
+    signin,
+    logout,
     updateUserProfile,
     signInWithGoogle,
  
