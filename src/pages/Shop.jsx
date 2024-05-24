@@ -8,8 +8,9 @@ import useAxiosPublic from '../hooks/useAxiosPublic'
 const Shop = () => {
     const [product, setProduct] = useState(null)
     const axiosPublic = useAxiosPublic()
+    const [category, setCategory] = useState([])
     const [sortOptin, setSortOption] = useState('default')
-
+    const [selectedCategory, setSelectedCategory] = useState('all')
 
     const [filteredItems, setFilteredItems] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -34,6 +35,23 @@ const Shop = () => {
         }
 
     }, [axiosPublic])
+
+    useEffect(() => {
+        const fetchtData = async () => {
+            try {
+                const response = await fetch('/category.json')
+                const data = await response.json()
+                console.log(data);
+                setCategory(data);
+
+            }
+            catch (err) {
+                console.log("error for fetching data", err);
+            }
+        }
+
+        fetchtData()
+    }, [])
 
     // sort data
     const handelSort = (option) => {
@@ -62,6 +80,24 @@ const Shop = () => {
         }
 
         setFilteredItems(sortedItems)
+        setCurrentPage(1)
+    }
+
+
+
+    const filterItems = (category) => {
+        const filtered = category === 'All' ? product : product.filter((item) => item.des=== category);
+        console.log("dfsfsadf",category);
+        setFilteredItems(filtered);
+        setSelectedCategory(category);
+        setCurrentPage(1)
+    }
+
+
+    // show all data
+    const showAll = () => {
+        setFilteredItems(product)
+        setSelectedCategory("All")
         setCurrentPage(1)
     }
 
@@ -101,21 +137,20 @@ const Shop = () => {
 
             {/* filter and sort start */}
             <div className='rounded-3xl mt-12 mb-12 container mx-auto bg-[#9cbbbb] p-6 md:flex justify-around '>
-                <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                        <span className="label-text text-2xl font-bold">Search category</span>
+            <div>
+                    {/* all buttons */}
+                    <div>
+                        <p className='text-3xl font-bold mt-12 mb-4'>Category Here</p>
+                        <div className="pt-4  items-center flex     overflow-x-auto  gap-7 mb-4 ">
+                            <button className={`border-x-4  font-bold hover:bg-button hover:text-white border-button rounded-2xl mx-8 px-8 py-2 ${selectedCategory === "All" ? "activee" : ""}`} onClick={showAll}>All</button>
+                            <button className={`border-x-4  font-bold hover:bg-button hover:text-white border-button rounded-2xl mx-8 px-8 py-2 ${selectedCategory === "Casual shirt" ? "activee" : ""}`} onClick={() => filterItems("Casual shirt")}>Casual shirt</button>
+                            <button className={`border-x-4  font-bold hover:bg-button hover:text-white border-button rounded-2xl mx-8 px-8 py-2 ${selectedCategory === "Male-fashion" ? "activee" : ""}`} onClick={() => filterItems("Male-fashion")}>Male-fashion</button>
+                            <button className={`border-x-4  font-bold hover:bg-button hover:text-white border-button rounded-2xl mx-8 px-8 py-2 ${selectedCategory === "Mobile" ? "activee" : ""}`} onClick={() => filterItems("Mobile")}>Mobile</button>
+                          
 
+                        </div>
                     </div>
-                    <select className="select select-bordered text-xl font-semibold">
-                        <option disabled selected>Pick one</option>
-                        <option>All Product</option>
-                        <option>Casual shirt</option>
-                        <option>Male-fashion</option>
-                        <option>Mobile</option>
-                      
-                    </select>
-
-                </label>
+                </div>
                 {/* sort line here */}
                 <label className="form-control w-full max-w-xs">
                     <div className="label">
