@@ -3,12 +3,56 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Navigation } from 'swiper/modules';
 import man1 from '/public/man1.png'
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import useAxiosPublic from '../hooks/useAxiosPublic';
+import { AuthContext } from '../Context/AuthProvider';
+import toast from 'react-hot-toast';
 
 const SingleItem = () => {
+    const {user}=useContext(AuthContext)
     const [setSwiperRef] = useState(null);
-    const product = useLoaderData()
+    const [comments,setComments]=useState([])
+    const product = useLoaderData();
+    const {_id}=product;
+  
+    
+    const axiosPublic = useAxiosPublic()
+    const {
+        register,
+        handleSubmit,
+         formState: { errors },
+      } = useForm()
+
+
+      const onSubmit = async (data) => {
+        const userName = user.displayName;
+        const comment = data.Comments;
+        const ratings = data.Ratings;
+        const passion = data.proffesion;
+        const userPhoto = user.photoURL;
+        const userId = data.id;
+      const info={userName,comment, ratings,passion,userId,userPhoto}
+    //   comment, userId, userName, userPhoto
+      
+         try{
+            const response = await axiosPublic.post(`/product/${product._id}`, info);
+            if (response.data.insertedId) {
+                toast.success("Thank you for your kind opinion.");
+            }
+         }catch (error) {
+            console.error('Error:', error);
+          }
+  
+      };
+
+      useEffect(()=>{
+          axiosPublic.get(`/products/${_id}`)
+           .then(data=>{
+            console.log(data.data);
+            setComments(data.data)} ) 
+      },[axiosPublic,_id])
     
     console.log(product);
     return (
@@ -21,7 +65,7 @@ const SingleItem = () => {
                 </div>
 
                 <div>
-                    <p className="badge bg-[#c1cbcb] w-28 h-12 font-bold text-xl mb-6">{product.des} </p>
+                    <p className="badge bg-[#c1cbcb] w-36 h-12 font-bold text-xl mb-6">{product.des} </p>
                     <p className="text-2xl font-bold">{product.price}  BDT</p>
                     <div className='rating rating-lg'>
                         <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
@@ -51,58 +95,28 @@ const SingleItem = () => {
                         className="mySwiper min-md:w-[1400px]"
 
 
-                    >
-                        <SwiperSlide className='border bg-[#c1cfcf] rounded-3xl'>
-                            <div >
-                                <p className='mb-8 p-8'>Jorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+                    > 
+                    {
+                        comments?.map((item,idx)=><SwiperSlide key={idx} className='border bg-[#c1cfcf] rounded-3xl'>
+                        <div >
+                            <p className='mb-8 p-8'>{item.comment}</p>
+                        </div>
+                        <div className='flex justify-between'>
+                            <div className='flex items-center gap-8 p-6'>
+                                <img src={item?.userPhoto} alt="" className='w-28 h-20 object-cover rounded-full'/>
+                                <p className='text-3xl font-bold'>{item.userName}
+                                    
+                                </p>
                             </div>
-                            <div className='flex justify-between'>
-                                <div className='flex items-center'>
-                                    <img src={man1} alt="" />
-                                    <p className='text-3xl font-bold'>John Doe
-                                        <br /> <span className='text-xl font-semibold'>youtuber</span>
-                                    </p>
-                                </div>
-                                <div className='rating rating-lg'>
-                                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
-                                    <p className='text-2xl font-bold mt-2 ml-4'>4.5</p>
-                                </div>
+                            <div className='rating rating-lg'>
+                                <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
+                                <p className='text-2xl font-bold mt-2 ml-4'>{item?.ratings}</p>
                             </div>
-                        </SwiperSlide>
-                        <SwiperSlide className='border bg-[#c1cfcf] rounded-3xl'>
-                            <div >
-                                <p className='mb-8 p-8'>Jorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex items-center'>
-                                    <img src={man1} alt="" />
-                                    <p className='text-3xl font-bold'>John Doe
-                                        <br /> <span className='text-xl font-semibold'>youtuber</span>
-                                    </p>
-                                </div>
-                                <div className='rating rating-lg'>
-                                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
-                                    <p className='text-2xl font-bold mt-2 ml-4'>4.5</p>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className='border bg-[#c1cfcf] rounded-3xl'>
-                            <div >
-                                <p className='mb-8 p-8'>Jorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex items-center'>
-                                    <img src={man1} alt="" />
-                                    <p className='text-3xl font-bold'>John Doe
-                                        <br /> <span className='text-xl font-semibold'>youtuber</span>
-                                    </p>
-                                </div>
-                                <div className='rating rating-lg'>
-                                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
-                                    <p className='text-2xl font-bold mt-2 ml-4'>4.5</p>
-                                </div>
-                            </div>
-                        </SwiperSlide>
+                        </div>
+                    </SwiperSlide>)
+                    }
+                        
+                    
 
                     </Swiper>
                 </div>
@@ -123,21 +137,22 @@ const SingleItem = () => {
     
   </div>
   <div className="  bg-base-100 flex justify-center">
-      <form >
+      <form  onSubmit={handleSubmit(onSubmit)}>
        <div className='flex gap-10'>
             {/* left */}
        <div>
        <div className="form-control">
           <label className="label">
-            <span className="label-text">Name</span>
+            <span className="label-text">Product Id</span>
           </label>
-          <input type="name " placeholder="name" className="input input-bordered md:w-96" required />
+          <input  {...register("id")} type="text" placeholder="Proffesion" className="input input-bordered md:w-96" defaultValue={_id} readOnly required />
+          
         </div>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Comments</span>
           </label>
-          <input type="Comments" placeholder="Comments" className="input input-bordered md:w-96" required />
+          <input  {...register("Comments")} type="Comments" placeholder="Comments" className="input input-bordered md:w-96" required />
           
         </div>
        </div>
@@ -147,16 +162,17 @@ const SingleItem = () => {
           <label className="label">
             <span className="label-text">Ratings</span>
           </label>
-          <input type="Ratings" placeholder="Ratings" className="input input-bordered md:w-96" required />
+          <input  {...register("Ratings")} type="number" placeholder="Ratings" className="input input-bordered md:w-96" required />
           
         </div>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Proffesion</span>
           </label>
-          <input type="proffesion" placeholder="Proffesion" className="input input-bordered md:w-96" required />
+          <input  {...register("proffesion")} type="proffesion" placeholder="Proffesion" className="input input-bordered md:w-96" required />
           
         </div>
+      
         </div>
        </div>
         <div className="  flex justify-center">
