@@ -9,9 +9,9 @@ const HeaderCover = () => {
     <div className="hero min-h-screen bg-[#c1dcdc] rounded-3xl">
     <div className="hero-content flex-col lg:flex-row-reverse">
       <div className=''>
-        <img  src={arrowleft} className='absolute mt-96 ml-20 max-sm:hidden' alt="" />
+        <img  src={arrowleft} className='absolute mt-96 ml-20 max-sm:hidden max-md:hidden' alt="" />
       <img src={bannerImg} className="md:h-[600px] rounded-lg " />
-      <img className='absolute mt-[-650px] ml-[800px] max-sm:hidden' src={arrowright} alt="" />
+      <img className='absolute mt-[-650px] ml-[800px] max-sm:hidden  max-md:hidden' src={arrowright} alt="" />
       </div>
       <div>
       <p className="uppercase text-3xl">New Arrivals</p>

@@ -20,15 +20,15 @@ const SubmitComment = () => {
        <div>
        <div className="form-control">
           <label className="label">
-            <span className="label-text">Email</span>
+            <span className="label-text">Name</span>
           </label>
-          <input type="email " placeholder="email" className="input input-bordered md:w-96" required />
+          <input type="name " placeholder="name" className="input input-bordered md:w-96" required />
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Password</span>
+            <span className="label-text">Comments</span>
           </label>
-          <input type="password" placeholder="password" className="input input-bordered md:w-96" required />
+          <input type="Comments" placeholder="Comments" className="input input-bordered md:w-96" required />
           
         </div>
        </div>
@@ -36,16 +36,16 @@ const SubmitComment = () => {
         <div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Password</span>
+            <span className="label-text">Ratings</span>
           </label>
-          <input type="password" placeholder="password" className="input input-bordered md:w-96" required />
+          <input type="Ratings" placeholder="Ratings" className="input input-bordered md:w-96" required />
           
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Password</span>
+            <span className="label-text">Proffesion</span>
           </label>
-          <input type="password" placeholder="password" className="input input-bordered md:w-96" required />
+          <input type="proffesion" placeholder="Proffesion" className="input input-bordered md:w-96" required />
           
         </div>
         </div>
