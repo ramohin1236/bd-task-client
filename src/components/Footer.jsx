@@ -3,10 +3,11 @@ import { Link } from "react-router-dom"
 
 const Footer = () => {
   return (
-    <footer className="footer p-10 bg-[#879f9f] text-base-content">
+    <footer className="footer p-10 bg-[#c1dcdc] text-base-content">
   <aside>
     <Link className="flex items-center hover:scale-110">
-        <img src="/public/logo.png" className="w-24" alt="" />
+        <img src="/public/logo.png" className="w-24" alt=
+        "" />
         <p className="text-2xl font-bold">e-commerce</p>
     </Link>
     

@@ -3,6 +3,8 @@ import App from "../App";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import SingleItem from "../pages/SingleItem";
+import SignIn from "../pages/SignIn";
+import SignUP from "../pages/SignUP";
 
 
 
@@ -24,7 +26,16 @@ import SingleItem from "../pages/SingleItem";
             path: '/product/:id',
             element: <SingleItem/>
         },
-      ]
+        {
+            path: '/sign-up',
+            element: <SignUP/>
+        },
+        {
+            path: '/signin',
+            element: <SignIn/>
+        },
+    ]
+   
     }
   ]);
 
