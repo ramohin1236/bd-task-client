@@ -10,12 +10,15 @@ import useAxiosPublic from '../hooks/useAxiosPublic';
 import { AuthContext } from '../Context/AuthProvider';
 import toast from 'react-hot-toast';
 
+
 const SingleItem = () => {
     const {user}=useContext(AuthContext)
     const [setSwiperRef] = useState(null);
     const [comments,setComments]=useState([])
+    const [ratings,setRatings]=useState([])
+    console.log(ratings);
     const product = useLoaderData();
-    const {_id}=product;
+    const {_id,name}=product;
   
     
     const axiosPublic = useAxiosPublic()
@@ -40,6 +43,10 @@ const SingleItem = () => {
             const response = await axiosPublic.post(`/product/${product._id}`, info);
             if (response.data.insertedId) {
                 toast.success("Thank you for your kind opinion.");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+               
             }
          }catch (error) {
             console.error('Error:', error);
@@ -49,9 +56,18 @@ const SingleItem = () => {
 
       useEffect(()=>{
           axiosPublic.get(`/products/${_id}`)
-           .then(data=>{
-            console.log(data.data);
-            setComments(data.data)} ) 
+          .then(response => {
+            console.log(response);
+            const { comments, averageRating } = response.data;
+            setComments(comments)
+            setRatings(averageRating)
+            console.log('Comments:', comments);
+            console.log('Average Rating:', averageRating);
+            // Display comments and average rating in your UI
+        })
+        .catch(error => {
+            console.error('Error fetching comments or average rating:', error);
+        }); 
       },[axiosPublic,_id])
     
     console.log(product);
@@ -69,7 +85,7 @@ const SingleItem = () => {
                     <p className="text-2xl font-bold">{product.price}  BDT</p>
                     <div className='rating rating-lg'>
                         <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
-                        <p className='text-2xl font-bold mt-2 ml-4'>4.5</p>
+                        <p className='text-2xl font-bold mt-2 ml-4'>{ratings}</p>
                     </div>
                 </div>
             </div>
@@ -78,8 +94,11 @@ const SingleItem = () => {
             {/* show review */}
             <div className='mt-24'>
             <div>
-                <p className="text-5xl font-bold mb-12">What customers say about <br /> i-phone?</p>
-                <div>
+                <p className="text-5xl font-bold mb-12">What customers say about <br /> {name}</p>
+                <div> 
+                   
+                        {comments.length >0? <p className='text-3xl'>This Product has <span className='font-bold text-blue-700'> {comments.length}</span> Comments.</p>:<p className='text-3xl'>This Product has <span className='font-bold text-blue-700'>No Comments</span> Yet.</p> }
+                   
                     <Swiper
                         onSwiper={setSwiperRef}
                         slidesPerView={2}

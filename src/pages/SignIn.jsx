@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { FaGoogle } from "react-icons/fa6"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
 import { AuthContext } from "../Context/AuthProvider";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ const SignIn = () => {
     const [errorMessage, setErrorMessage]=useState('')
     const {signInWithGoogle, signin}=useContext(AuthContext);
      const axiosPublic = useAxiosPublic();
+     const location=useLocation();
      const navigate =useNavigate()
     const from = location?.state?.from?.pathname ||"/";
     const {
@@ -56,8 +57,9 @@ const SignIn = () => {
             };
             axiosPublic.post('/users', userInfo)
             .then((response) => {
-                console.log(response);
+             
                 toast.success("User Created Successfully!");
+                <Navigate to="/" state={{from:location}} replace></Navigate>
             })
             .catch((error) => {
                 console.error("Error creating user:", error);
