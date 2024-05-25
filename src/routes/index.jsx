@@ -6,6 +6,7 @@ import SingleItem from "../pages/SingleItem";
 import SignIn from "../pages/SignIn";
 import SignUP from "../pages/SignUP";
 import { AddProduct } from "../pages/AddProduct";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -25,7 +26,7 @@ import { AddProduct } from "../pages/AddProduct";
         },
         {
             path: '/product/:id',
-            element: <SingleItem/>,
+            element: <PrivateRoute><SingleItem/></PrivateRoute>,
             loader: ({params})=>fetch(`http://localhost:8000/product/${params.id}`)
         },
         {
