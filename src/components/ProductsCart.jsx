@@ -1,10 +1,17 @@
 /* eslint-disable react/prop-types */
+
 import { Link } from "react-router-dom"
 
 
+
 const ProductsCart = ({item}) => {
+    
     console.log(item);
     const {_id,des,imageUrl,name,price}=item
+
+
+
+
     return (
 
         <Link to={`/product/${_id}`} className="card card-compact  bg-base-100 shadow-xl">
@@ -13,10 +20,7 @@ const ProductsCart = ({item}) => {
             <div className="card-body">
                 <div className="flex justify-between" >
                     <div>  <p className="badge bg-[#c1dcdc] font-bold">{des}</p></div>
-                    <div className='rating rating-lg'>
-                        <input type="radio" name="rating-4" className="mask mask-star-2 bg-slate-600-500 text-2xl " />
-                        <p className='text-2xl font-bold mt-2 ml-4'>4.5</p>
-                    </div>
+                   
 
                 </div>
                 <h2 className="card-title text-4xl font-bold">{name}</h2>
